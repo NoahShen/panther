@@ -1,5 +1,7 @@
 package com.github.noahshen.panther.utils
 
+import com.github.noahshen.panther.core.Block
+import com.github.noahshen.panther.core.Transaction
 import org.spongycastle.crypto.params.ECDomainParameters
 import org.spongycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey
 import org.spongycastle.jce.ECNamedCurveTable
@@ -16,7 +18,7 @@ import java.security.spec.X509EncodedKeySpec
 /**
  *
  */
-class CryptoUtil {
+class CryptoUtils {
 
     companion object {
         init {
@@ -34,7 +36,7 @@ class CryptoUtil {
         /**
          *
          */
-        fun generateKeyPair(): KeyPair? {
+        fun generateKeyPair(): KeyPair {
             val gen = KeyPairGenerator.getInstance("EC", "SC")
             gen.initialize(ECGenParameterSpec("secp256k1"), SecureRandom())
             val keyPair = gen.generateKeyPair()
@@ -53,12 +55,6 @@ class CryptoUtil {
             return hash
         }
 
-        /**
-         * SHA3
-         */
-        fun sha3(msg: ByteArray): ByteArray {
-            return sha256((msg))
-        }
 
         fun deserializePrivateKey(bytes: ByteArray): PrivateKey {
             val kf = KeyFactory.getInstance("EC", "SC")
@@ -88,6 +84,45 @@ class CryptoUtil {
             } else {
                 null
             }
+        }
+
+
+        /**
+         *
+         */
+        fun signTransaction(trx: Transaction, privateKey: PrivateKey): ByteArray {
+            val signer = Signature.getInstance("SHA256withECDSA")
+            signer.initSign(privateKey)
+            val msgToSign = CodecUtils.encodeTransactionWithoutSignatureToAsn1(trx).encoded
+            signer.update(msgToSign)
+            return signer.sign()
+        }
+
+        /**
+         *
+         */
+        fun verifyTransactionSignature(trx: Transaction, signature: ByteArray): Boolean {
+            val signer = Signature.getInstance("SHA256withECDSA")
+            signer.initVerify(trx.requestPublicKey)
+
+            signer.update(CodecUtils.encodeTransactionWithoutSignatureToAsn1(trx).encoded)
+            return signer.verify(signature)
+        }
+
+
+        fun hashTransaction(trx: Transaction): ByteArray {
+            val digest = MessageDigest.getInstance("KECCAK-256", "SC")
+            digest.update(trx.encode())
+            return digest.digest()
+        }
+
+        /**
+         *
+         */
+        fun hashBlock(block: Block): ByteArray {
+            val digest = MessageDigest.getInstance("KECCAK-256", "SC")
+            digest.update(block.encode())
+            return digest.digest()
         }
     }
 
