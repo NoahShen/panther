@@ -48,3 +48,5 @@ appenv
 /target
 /log
 .DS_Store
+
+/dbfiles

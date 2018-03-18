@@ -6,11 +6,4 @@ interface AccountStorage {
 
     fun saveAccount(accountEntity: AccountEntity)
 
-    fun loadTransaction(transId: String): TransactionEntity?
-
-    fun saveTransaction(transactionEntity: TransactionEntity)
-
-    fun loadBlock(blockHash: ByteArray): BlockEntity?
-
-    fun saveBlock(blockEntity: BlockEntity)
 }
