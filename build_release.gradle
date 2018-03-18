@@ -18,8 +18,8 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
-group = 'io.lunarchain'
-archivesBaseName = "lunarcoin-core"
+group = 'com.github.noahshen'
+archivesBaseName = "com.github.noahshen"
 version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 

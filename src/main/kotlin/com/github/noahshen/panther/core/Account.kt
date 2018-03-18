@@ -9,10 +9,11 @@ import java.security.PublicKey
  *
  */
 class Account(
-    val publicKey: PublicKey,
-    val privateKey: PrivateKey,
-    val nonce: BigInteger
-)  {
+        val publicKey: PublicKey,
+        val privateKey: PrivateKey,
+        val nonce: BigInteger,
+        var balance: BigInteger = BigInteger.ZERO
+) {
 
     companion object {
 
@@ -25,7 +26,7 @@ class Account(
     }
 
     override fun toString(): String {
-        return "Account(publicKey=$publicKey, privateKey=$privateKey, nonce=$nonce)"
+        return "Account(publicKey=$publicKey, privateKey=$privateKey, nonce=$nonce, balance=$balance)"
     }
 
 
