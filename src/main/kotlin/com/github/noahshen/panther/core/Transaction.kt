@@ -1,5 +1,6 @@
 package com.github.noahshen.panther.core
 
+import com.github.noahshen.panther.PantherConstants
 import com.github.noahshen.panther.utils.CodecUtils
 import com.github.noahshen.panther.utils.CryptoUtils
 import org.joda.time.DateTime
@@ -26,6 +27,8 @@ class Transaction(
      */
     val isValid: Boolean
         get() = (signature.isNotEmpty() && CryptoUtils.verifyTransactionSignature(this, signature))
+
+    fun isCoinbaseTransaction() = senderAddress.contentEquals(PantherConstants.COINBASE_SENDER_ADDRESS)
 
     /**
      * 用发送方的私钥进行签名。
