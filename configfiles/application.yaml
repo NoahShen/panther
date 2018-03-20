@@ -1,0 +1,7 @@
+panther:
+  nodeId: "123"
+  listProp2:
+      - config2Value1
+      - config2Vavlue2
+  bootNodes:
+      - localhost:87187

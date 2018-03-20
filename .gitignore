@@ -50,3 +50,6 @@ appenv
 .DS_Store
 
 /dbfiles
+
+.gradle/
+build/
