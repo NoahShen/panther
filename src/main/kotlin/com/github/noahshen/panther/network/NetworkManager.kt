@@ -13,7 +13,6 @@ class NetworkManager {
 
     fun init(): Boolean {
 
-
         // 获取当前节点ID
         val nodeIdFromConfig = ConfigUtils.getString("panther.nodeId")
         if (nodeIdFromConfig.isNullOrBlank()) {
