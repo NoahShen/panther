@@ -22,9 +22,9 @@ import java.util.concurrent.TimeUnit
 class ConfigUtils private constructor() {
 
     companion object {
-        val LOGGER = LoggerFactory.getLogger(ConfigUtils::class.java)
+        private val LOGGER = LoggerFactory.getLogger(ConfigUtils::class.java)
 
-        val provider: ConfigurationProvider? by lazy { getInstance() }
+        private val provider: ConfigurationProvider? by lazy { getInstance() }
 
 
         private fun getInstance(): ConfigurationProvider? {
