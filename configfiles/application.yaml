@@ -1,7 +1,8 @@
 panther:
   nodeId: "123"
+  nodeAddress: "http://127.0.0.1:87187"
   listProp2:
       - config2Value1
       - config2Vavlue2
   bootNodes:
-      - localhost:87187
+      - http://localhost:87187/

@@ -8,11 +8,10 @@ import com.github.noahshen.panther.core.Transaction
  */
 class Peer(
         val nodeId: String,
-        val ipAddress: String,
-        val port: Int,
-        val versoin: Int,
-        val networkId: Int,
-        val networkEnv: Int
+        val nodeAddress: String,
+        val versoin: String,
+        val networkId: String,
+        val networkEnv: String
 ) {
 
     var lastActivityTime : Long = 0
@@ -51,9 +50,8 @@ class Peer(
     fun loadPeers() {
     }
 
-
     override fun toString(): String {
-        return "Peer(nodeId='$nodeId', ipAddress='$ipAddress', port=$port, versoin=$versoin, networkId=$networkId, networkEnv=$networkEnv, lastActivityTime=$lastActivityTime)"
+        return "Peer(nodeId='$nodeId', nodeAddress='$nodeAddress', versoin=$versoin, networkId=$networkId, networkEnv=$networkEnv, lastActivityTime=$lastActivityTime)"
     }
 
 
