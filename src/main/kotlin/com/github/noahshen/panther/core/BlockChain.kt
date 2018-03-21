@@ -9,6 +9,7 @@ import java.math.BigInteger
 class BlockChain(
         val nodeId: String,
         val blockStorage: BlockStorage,
+        val lastBlockStorage: LastBlockStorage,
         val transactionStorage: TransactionStorage,
         val accountStorage: AccountStorage
 ) {
@@ -35,6 +36,10 @@ class BlockChain(
         block.transactions.forEach { transaction: Transaction ->
             processTransaction(transaction)
         }
+
+        // 更新最新区块地址
+        val lastBlockEntity = LastBlockEntity(blockEntity.blockHash)
+        lastBlockStorage.saveBlock(lastBlockEntity)
     }
 
     private fun processTransaction(transaction: Transaction) {
@@ -42,8 +47,17 @@ class BlockChain(
         val senderAccountEntity = loadOrCreateAccount(transaction.senderAddress)
         val receiverAccountEntity = loadOrCreateAccount(transaction.receiverAddress)
 
-        // TODO 验证交易
-        senderAccountEntity.balance > transaction.amount
+        val newSenderAccountEntity = senderAccountEntity.copy(
+                publicKey = senderAccountEntity.publicKey,
+                nonce = senderAccountEntity.nonce + BigInteger.ONE,
+                balance = senderAccountEntity.balance - transaction.amount)
+        accountStorage.saveAccount(newSenderAccountEntity)
+
+        val newReceiverAccountEntity = senderAccountEntity.copy(
+                publicKey = receiverAccountEntity.publicKey,
+                nonce = receiverAccountEntity.nonce + BigInteger.ONE,
+                balance = receiverAccountEntity.balance + transaction.amount)
+        accountStorage.saveAccount(newReceiverAccountEntity)
 
         val transaction = TransactionEntity(
                 String(transaction.hash()),
