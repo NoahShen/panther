@@ -124,6 +124,15 @@ class CryptoUtils {
             digest.update(block.encode())
             return digest.digest()
         }
+
+        /**
+         * Merkle Root Hash
+         */
+        fun merkleRoot(transactions: List<Transaction>): ByteArray {
+            // TODO merkle 树实现补充
+            return ByteArray(0)
+        }
+
     }
 
 }

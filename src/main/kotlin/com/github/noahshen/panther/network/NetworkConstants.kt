@@ -2,6 +2,8 @@ package com.github.noahshen.panther.network
 
 object NetworkConstants {
 
-    val REGISTER_NODE_PATH = "/panther/api/v1/register"
+    val PATH_BASE = "/panther/api/v1"
+
+    val REGISTER_NODE_PATH = "$PATH_BASE/register"
 
 }

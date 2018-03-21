@@ -13,10 +13,10 @@ import okhttp3.Request
 import okhttp3.RequestBody
 
 
-data class RegisterResult(val success: Boolean, val peer: Peer?)
+data class RegisterResult(val success: Boolean, val peer: Peer?, val message:String? = null)
 
 /**
- *
+ * 节点维护管理，后续可以加上定期从其他节点同步新节点
  */
 class PeerConnectionMgr(
         val nodeId:String,
@@ -28,7 +28,7 @@ class PeerConnectionMgr(
 
     val otherNodes = mutableMapOf<String, Peer>()
 
-    val gson = Gson() // for pretty print feature
+    val gson = Gson()
 
     suspend fun start() {
 
@@ -43,9 +43,13 @@ class PeerConnectionMgr(
             registerJobs.add(registerJob)
         }
 
-        // TODO 获取结果
-        registerJobs.forEach {
-
+        // 获取注册结果
+        registerJobs.forEach { registerJob ->
+            val registerResult: RegisterResult = registerJob.await()
+            if (registerResult.success) {
+                val peer: Peer = registerResult.peer!!
+                otherNodes[peer.nodeId] = peer
+            }
         }
     }
 
@@ -65,15 +69,24 @@ class PeerConnectionMgr(
 
         val registerResponse = gson.fromJson(responseSting, RegisterResponse::class.java)
 
-        return if (!registerResponse.success) {
-            RegisterResult(registerResponse.success, null)
-        } else {
-            val peerNodeId = registerResponse.nodeId
-            val peerNodeAddress = registerResponse.nodeAddress
-            val version = registerResponse.version
-            val networkId = registerResponse.networkId
-            val networkEnv = registerResponse.networkEnv
-            RegisterResult(registerResponse.success, Peer(peerNodeId, peerNodeAddress, version, networkId, networkEnv))
+        if (!registerResponse.success) {
+            return RegisterResult(registerResponse.success, null, registerResponse.message)
         }
+
+        val peerNodeId = registerResponse.nodeId
+        val peerNodeAddress = registerResponse.nodeAddress
+        val version = registerResponse.version
+        val networkId = registerResponse.networkId
+        val networkEnv = registerResponse.networkEnv
+
+        if (this.nodeId == peerNodeId) {
+            return RegisterResult(registerResponse.success, null, "节点ID非法，与本节点相同，peerNodeId=$peerNodeId")
+        }
+        // 验证节点信息
+        if (this.networkId != networkId || this.networkEnv != networkEnv) {
+            return RegisterResult(registerResponse.success, null, "节点信息不符，该节点networkId=$networkId, networkEnv=$networkEnv")
+        }
+
+        return RegisterResult(registerResponse.success, Peer(peerNodeId, peerNodeAddress, version, networkId, networkEnv))
     }
 }

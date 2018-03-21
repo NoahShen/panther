@@ -3,8 +3,7 @@ package com.github.noahshen.panther.core
 import com.github.noahshen.panther.utils.CodecUtils
 import com.github.noahshen.panther.utils.CryptoUtils
 import org.joda.time.DateTime
-import org.spongycastle.util.encoders.Hex
-import java.math.BigInteger
+import java.util.*
 
 /**
  *
@@ -17,15 +16,12 @@ class Block(
         val time: DateTime,
         val difficulty: Long,
         val nonce: Int,
-        val totalDifficulty: BigInteger,
-        val stateRoot: ByteArray,
         val trxTrieRoot: ByteArray,
         val transactions: List<Transaction>
 ) {
 
     val header = BlockHeader(
-            version, height, parentHash, coinBase, time, difficulty, nonce, totalDifficulty, stateRoot,
-            trxTrieRoot
+            version, height, parentHash, coinBase, time, difficulty, nonce, trxTrieRoot
     )
 
     /**
@@ -39,7 +35,7 @@ class Block(
     }
 
     override fun toString(): String {
-        return "h:$height, nonce:$nonce, dt:$difficulty, tt: $totalDifficulty, time:$time, " +
-                "${transactions.size} of transactions stateRoot:${Hex.toHexString(stateRoot)} trxTrieRoot: ${Hex.toHexString(trxTrieRoot)}."
+        return "Block(version=$version, height=$height, parentHash=${Arrays.toString(parentHash)}, coinBase=${Arrays.toString(coinBase)}, time=$time, difficulty=$difficulty, nonce=$nonce, trxTrieRoot=${Arrays.toString(trxTrieRoot)}, transactions=$transactions, header=$header)"
     }
+
 }
