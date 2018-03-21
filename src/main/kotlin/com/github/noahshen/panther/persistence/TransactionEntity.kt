@@ -7,7 +7,7 @@ import java.math.BigInteger
  *
  */
 data class TransactionEntity(
-        val transId: String,
+        val transHash: String,
         val senderAddress: ByteArray,
         val receiverAddress: ByteArray,
         val amount: BigInteger,

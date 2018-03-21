@@ -15,7 +15,7 @@ class Block(
         val coinBase: ByteArray,
         val time: DateTime,
         val difficulty: Long,
-        val nonce: Int,
+        val nonce: Long,
         val trxTrieRoot: ByteArray,
         val transactions: List<Transaction>
 ) {

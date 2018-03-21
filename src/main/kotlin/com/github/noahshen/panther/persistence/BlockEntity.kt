@@ -11,9 +11,9 @@ data class BlockEntity(
         val coinBase: ByteArray,
         val time: Long,
         val difficulty: Long,
-        val nonce: Int,
+        val nonce: Long,
         val trxTrieRoot: ByteArray,
-        val transactions: List<String>
+        val transactions: List<ByteArray>
 ) {
 
 }

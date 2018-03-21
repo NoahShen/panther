@@ -2,8 +2,12 @@ package com.github.noahshen.panther.config
 
 import org.junit.Before
 import org.junit.Test
+import org.slf4j.LoggerFactory
+
+
 
 class ConfigUtilsTest {
+    val logger = LoggerFactory.getLogger(ConfigUtilsTest::class.java)
 
     @Before
     fun setUp() {
@@ -19,5 +23,6 @@ class ConfigUtilsTest {
     fun testLoadListConfig() {
         val listProp2 = ConfigUtils.getStringList("panther.listProp2")
         println("listProp2:$listProp2")
+        logger.info("listProp2:$listProp2")
     }
 }

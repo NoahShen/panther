@@ -146,8 +146,6 @@ object CodecUtils {
         v.add(ASN1Integer(block.difficulty))
         v.add(ASN1Integer(block.nonce.toLong()))
         v.add(ASN1Integer(block.time.millis))
-        v.add(ASN1Integer(block.totalDifficulty))
-        v.add(DERBitString(block.stateRoot))
         v.add(DERBitString(block.trxTrieRoot))
 
         v.add(ASN1Integer(block.transactions.size.toLong()))
@@ -199,8 +197,7 @@ object CodecUtils {
 
             return Block(
                     version.toInt(), height.toLong(), parentHash, minerAddress,
-                    DateTime(millis.toLong()), difficulty.toLong(), nonce.toInt(), totalDifficulty,
-                    stateRoot, trxTrieRoot, trxList
+                    DateTime(millis.toLong()), difficulty.toLong(), nonce.toLong(), trxTrieRoot, trxList
             )
         }
 
@@ -226,8 +223,6 @@ object CodecUtils {
         v.add(ASN1Integer(blockHeader.difficulty))
         v.add(ASN1Integer(blockHeader.nonce.toLong()))
         v.add(ASN1Integer(blockHeader.time.millis))
-        v.add(ASN1Integer(blockHeader.totalDifficulty))
-        v.add(DERBitString(blockHeader.stateRoot))
         v.add(DERBitString(blockHeader.trxTrieRoot))
 
         return DERSequence(v)
@@ -261,8 +256,7 @@ object CodecUtils {
 
             return BlockHeader(
                     version.toInt(), height.toLong(), parentHash, minerAddress,
-                    DateTime(millis.toLong()), difficulty.toLong(), nonce.toInt(), totalDifficulty,
-                    stateRoot, trxTrieRoot
+                    DateTime(millis.toLong()), difficulty.toLong(), nonce.toLong(), trxTrieRoot
             )
         }
 

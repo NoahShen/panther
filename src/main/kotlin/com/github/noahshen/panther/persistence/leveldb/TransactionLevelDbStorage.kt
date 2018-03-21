@@ -16,6 +16,6 @@ class TransactionLevelDbStorage : TransactionStorage, LevelDbStorage {
     }
 
     override fun saveTransaction(transactionEntity: TransactionEntity) {
-        leveldb.put(transactionEntity.transId.toByteArray(), gson.toJson(transactionEntity).toByteArray())
+        leveldb.put(transactionEntity.transHash.toByteArray(), gson.toJson(transactionEntity).toByteArray())
     }
 }

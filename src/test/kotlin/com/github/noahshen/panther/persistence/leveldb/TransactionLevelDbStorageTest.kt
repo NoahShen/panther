@@ -34,9 +34,9 @@ class TransactionLevelDbStorageTest {
         val account2 = Account.createAccount()
         val account2PublicKey = account2.publicKey
 
-        val transId = "123"
+        val transHash = "123"
         val transactionEntity1 = TransactionEntity(
-                transId,
+                transHash,
                 account1PublicKey.encoded,
                 account2PublicKey.encoded,
                 BigInteger.ZERO,
@@ -46,8 +46,8 @@ class TransactionLevelDbStorageTest {
                 )
         transactionStorage.saveTransaction(transactionEntity1)
 
-        val transactionEntity2: TransactionEntity? = transactionStorage.loadTransaction(transId)
-        assert(transactionEntity2!!.transId == transId)
+        val transactionEntity2: TransactionEntity? = transactionStorage.loadTransaction(transHash)
+        assert(transactionEntity2!!.transHash == transHash)
         assert(transactionEntity2!!.senderAddress.contentEquals(account1PublicKey.encoded))
         assert(transactionEntity2!!.receiverAddress.contentEquals(account2PublicKey.encoded))
     }

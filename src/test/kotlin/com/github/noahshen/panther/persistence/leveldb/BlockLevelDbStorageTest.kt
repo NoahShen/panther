@@ -40,7 +40,7 @@ class BlockLevelDbStorageTest {
                 0L,
                 123,
                 "trxRoot".toByteArray(),
-                listOf("transId123"))
+                listOf("transId123".toByteArray()))
         blockStorage.saveBlock(blockEntity1)
 
         val blockEntity2 = blockStorage.loadBlock(blockHash)
