@@ -57,7 +57,7 @@ class PeerConnectionMgr(
         val url = "$bootNode + ${NetworkConstants.REGISTER_NODE_PATH}"
         val client = OkHttpClient()
 
-        val registerInfo = RegisterRequest(nodeAddress!!, networkId, networkEnv)
+        val registerInfo = RegisterRequest(nodeAddress, networkId, networkEnv)
 
         val body = RequestBody.create(JSON, gson.toJson(registerInfo))
         val request = Request.Builder()
